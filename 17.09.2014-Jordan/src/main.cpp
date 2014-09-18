@@ -258,9 +258,10 @@ void close() {
 	SDL_Quit();
 }
 
+
 int main(int argc, char* args[]) {
 
-	int fullscreen = 0;
+	int fullscreen = 4097;
 
 	//Start up SDL and create window
 	if (!init()) {
@@ -296,17 +297,24 @@ int main(int argc, char* args[]) {
 //								SDL_SetWindowFullscreen(gWindow,SDL_WINDOW_FULLSCREEN_DESKTOP);
 //								break;
 							case SDLK_RETURN:
+//
+//								fullscreen = !fullscreen;
 
-								fullscreen = !fullscreen;
-//								 if(fullscreen == 1)
-//								 {
-									 if (SDL_SetWindowFullscreen(gWindow,fullscreen) != 0) {
-										printf ("Unable to switch window to fullscreen mode:  %s\n", SDL_GetError());
-										SDL_ClearError();
-										fullscreen = !fullscreen;
-									  }
-//								 }
+							if (fullscreen == 4097)
+							{
+								fullscreen = 0;
+							}
 
+							else
+							{
+								fullscreen = 4097;
+							}
+
+							 if (SDL_SetWindowFullscreen(gWindow,fullscreen) != 0) {
+							printf ("Unable to switch window to fullscreen mode:  %s\n", SDL_GetError());
+							SDL_ClearError();
+
+					    }
 							break;
 						}
 					}
