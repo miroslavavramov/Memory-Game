@@ -8,17 +8,15 @@ using namespace std;
 
 const int SCREEN_WIDTH = 700;
 const int SCREEN_HEIGHT = 480;
-const int CARD_ANIMATION_frame = 4;
-const int CARD_SUIT_ANIMATION = 5;
 SDL_Window* gWindow = NULL;
 
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
 //Scene
-SDL_Rect gameCard[CARD_ANIMATION_frame];
+SDL_Rect gameCard[4];
 SDL_Rect gameCardPos;
-SDL_Rect gameCardSuit[CARD_SUIT_ANIMATION];
+SDL_Rect gameCardSuit[4];
 SDL_Rect gameCardSuitPos;
 //Texture
 SDL_Texture* backgroundTexture = NULL;
