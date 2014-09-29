@@ -14,9 +14,12 @@
 #include <string>
 #include <iostream>
 #include <ctime>
+#include <set>
+#include <iterator>
 #include "DeckOfCards.h"
 #include "Card.h"
 #include "BackgroundTexture.h"
+using namespace std;
 
 class Game {
 public:
@@ -30,11 +33,16 @@ public:
 	void Update();
 	void GetCardFromDeck();
 	bool Running();
+	void compareCard();
+
 private:
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
 
 	vector<Card> m_cardSet;
+	set<int> m_TwoCard;
+	set<int>::iterator m_Begin;
+	set<int>::iterator m_End;
 	DeckOfCards m_newDeck;
 	Card m_temp;
 

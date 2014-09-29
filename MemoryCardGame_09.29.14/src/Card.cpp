@@ -1,4 +1,3 @@
-
 #include "Card.h"
 
 Card::Card() {
@@ -23,13 +22,12 @@ void Card::Init(SDL_Renderer* a) {
 	}
 	m_t = SDL_CreateTextureFromSurface(a, cardSurface);
 	SDL_FreeSurface(cardSurface);
-//
-//	m_source.x = CARD_WIDTH * face;
-	//m_source.y = CARD_HEIGHT * suit;
-//	m_source.h = CARD_HEIGHT;
-	//m_source.w = CARD_WIDTH;
 
-//   m_destination = {0 - 35, 600- 25, 70, 25};
+//	m_source.x = CARD_WIDTH * face;
+//	m_source.y = CARD_HEIGHT * suit;
+//	m_source.h = CARD_HEIGHT;
+//	m_source.w = CARD_WIDTH;
+
 }
 
 void Card::Draw(SDL_Renderer* a) {
@@ -49,20 +47,48 @@ void Card::setDestination(int x_dest, int y_dest) {
 
 }
 
-void Card::UpDate(SDL_Event e) {
+void Card::ChangeCardState() {
+	if (state == 0) {
+
+		m_source.x = CARD_WIDTH * 2;
+		m_source.y = CARD_HEIGHT * 4;
+		m_source.h = CARD_HEIGHT;
+		m_source.w = CARD_WIDTH;
+
+
+	}
+	else if (state == 1) {
+
+		m_source.x = CARD_WIDTH * face;
+		m_source.y = CARD_HEIGHT * suit;
+		m_source.h = CARD_HEIGHT;
+		m_source.w = CARD_WIDTH;
+
+
+	}else if(state == 2){
+		m_source.h = 0;
+			m_source.w = 0;
+	}
+
+}
+void Card::Update(SDL_Event e) {
 	if (e.type == SDL_MOUSEBUTTONDOWN) {
 		int xCoordinate, yCoordinate;
 		SDL_GetMouseState(&xCoordinate, &yCoordinate);
+
 		if (xCoordinate > m_destination.x
 				&& xCoordinate < m_destination.x + m_destination.w
 				&& yCoordinate > m_destination.y
-				&& yCoordinate < m_destination.y + m_destination.h) {
+				&& yCoordinate < m_destination.y + m_destination.h)
+
+		{
 			if (state == 0) {
 				state = 1;
-
 			}
+
 		}
 
 	}
+	ChangeCardState();
 }
 

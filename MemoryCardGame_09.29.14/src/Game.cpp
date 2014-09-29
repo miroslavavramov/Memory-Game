@@ -49,7 +49,7 @@ void Game::GetCardFromDeck() {
 	m_cardSet.clear();
 	m_newDeck.Init();
 	m_newDeck.Shuffle();
-	for (int iter = 0; iter < 4; iter++) {
+	for (int iter = 0; iter < 7; iter++) {
 
 		Card temp = m_newDeck.getCard();
 		m_temp.face = temp.face;
@@ -59,24 +59,23 @@ void Game::GetCardFromDeck() {
 		m_temp.m_source.h = CARD_HEIGHT;
 		m_temp.m_source.w = CARD_WIDTH;
 
-
 		m_cardSet.push_back(m_temp);
 		m_cardSet.push_back(m_temp);
-
 
 	}
 
-
 	srand(time(NULL));
 	random_shuffle(m_cardSet.begin(), m_cardSet.end());
-	for (int iter = 0; iter < 8; iter++){
+	for (int iter = 0; iter < 14; iter++) {
 
-			m_cardSet[iter].setDestination((iter % 4 * 100) + 100, (iter<4?100:250));
+		m_cardSet[iter].setDestination((iter % 7 * 100) + 100,
+				(iter < 7 ? 100 : 250));
 	}
 
 }
 void Game::Update() {
 	SDL_Event event;
+	//close windows
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_QUIT:
@@ -86,19 +85,72 @@ void Game::Update() {
 			break;
 		}
 	}
+	//close with escape
+	if (event.type == SDL_KEYDOWN) {
+		if (event.key.keysym.sym == SDLK_ESCAPE) {
+			m_bRunning = false;
+		}
+	}
+	//
+	for (int iter = 0; iter < 14; iter++) {
+		m_cardSet[iter].Update(event);
 
+	}
+	compareCard();
 }
 
 void Game::Draw() {
 	SDL_RenderClear(m_pRenderer);
 
 	texture.Draw(m_pRenderer);
-	for (int iter = 0; iter < 8; iter++)
-	m_cardSet[iter].Draw(m_pRenderer);
+	for (int iter = 0; iter < 14; iter++)
+		m_cardSet[iter].Draw(m_pRenderer);
 
 	SDL_RenderPresent(m_pRenderer);
 }
 
 bool Game::Running() {
 	return m_bRunning;
+}
+
+void Game::compareCard() {
+
+	for (int i = 0; i < 14; i++) {
+
+		if (m_cardSet[i].state == 1) {
+
+			m_TwoCard.insert(i);
+			switch (m_TwoCard.size()) {
+
+			case 2:
+
+				m_Begin = m_TwoCard.begin();
+				m_End = --m_TwoCard.end();
+
+				if (m_cardSet[*m_Begin].face == m_cardSet[*m_End].face
+						&& m_cardSet[*m_Begin].suit == m_cardSet[*m_End].suit) {
+
+					m_cardSet[*m_Begin].state = 2;
+					m_cardSet[*m_End].state = 2;
+					m_TwoCard.clear();
+					//playvame zvuka
+
+				}else{	m_TwoCard.insert(i);}
+
+				break;
+			case 3:
+
+				m_cardSet[*m_Begin].state = 0;
+				m_cardSet[*m_End].state = 0;
+
+				m_TwoCard.erase(*m_Begin);
+
+				m_TwoCard.erase(*m_End);
+
+				break;
+
+			}
+
+		}
+	}
 }
