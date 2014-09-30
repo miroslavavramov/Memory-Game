@@ -1,0 +1,50 @@
+Title:              Game Engine Architecture, Second Edition
+Author:             Jason Gregory
+
+Hardcover:          1040 pages
+Publisher:          A K Peters/CRC Press; 2 edition (August 15, 2014)
+Language:           English
+ISBN-10:            1466560010
+ISBN-13:            978-1466560017
+Product Dimensions: 9.6 x 7.7 x 2.2 inches
+Shipping Weight:    4.3 pounds
+
+
+
+Product Description
+
+Hailed as a "must-have textbook" (CHOICE, January 2010), the first edition of Game 
+Engine Architecture provided readers with a complete guide to the theory and 
+practice of game engine software development. Updating the content to match today's
+landscape of game engine architecture, this second edition continues to thoroughly
+cover the major components that make up a typical commercial game engine.
+
+New to the Second Edition
+
+  - Information on new topics, including the latest variant of the C++
+    programming language, C++11, and the architecture of the eighth
+    generation of gaming consoles, the Xbox One and PlayStation 4
+  - New chapter on audio technology covering the fundamentals of the
+    physics, mathematics, and technology that go into creating an AAA
+    game audio engine
+  - Updated sections on multicore programming, pipelined CPU 
+    architecture and optimization, localization, pseudovectors and 
+    Grassman algebra, dual quaternions, SIMD vector math, memory
+    alignment, and anti-aliasing
+  - Insight into the making of Naughty Dog's latest hit, The Last of Us
+
+The book presents the theory underlying various subsystems that comprise a 
+commercial game engine as well as the data structures, algorithms, and software 
+interfaces that are typically used to implement them. It primarily focuses on the 
+engine itself, including a host of low-level foundation systems, the rendering 
+engine, the collision system, the physics simulation, character animation, and 
+audio. An in-depth discussion on the "gameplay foundation layer" delves into the 
+game's object model, world editor, event system, and scripting system. The text 
+also touches on some aspects of gameplay programming, including player mechanics, 
+cameras, and AI.
+
+An awareness-building tool and a jumping-off point for further learning, Game 
+Engine Architecture, Second Edition gives readers a solid understanding of both the
+theory and common practices employed within each of the engineering disciplines 
+covered. The book will help readers on their journey through this fascinating and 
+multifaceted field.
