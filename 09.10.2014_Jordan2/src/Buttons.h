@@ -45,4 +45,4 @@ private:
 
 };
 
-#endif  BUTTONS_H_
+#endif  /*BUTTONS_H_*/

@@ -66,10 +66,7 @@ void Statistics::setCredit(int credit) {
 
 void Statistics::setBet(int bets)
 {
-	if(bet >= 5)
-	{
 		this-> bet = bet + bets;
-	}
 
 }
 

@@ -226,9 +226,10 @@ void Game::Update() {
 				StateManager::stateMachine->setCurrentGameStates(GAMEOVER);
 
 				Timer::g_Timer->StopTimer();
+
 				m_stat.calculateProfit();
-				   m_stat.saveToFile();
-				   m_stat.readFromFile();
+			   m_stat.saveToFile();
+			   m_stat.readFromFile();
 			}
 			m_stat.setGameLevel(m_cardLogic.getTempLevel());
 
