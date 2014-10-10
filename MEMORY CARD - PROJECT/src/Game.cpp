@@ -421,8 +421,8 @@ void Game::Draw() {
 		break;
 
 	case STATISTIC:
-		m_StartGameMenu.backGroundMenu.DrawStatistic(m_pRenderer);
-	break;
+		m_StartGameMenu.backGroundForTeam.DrawStatistic(m_pRenderer);
+		break;
 
 	}
 
