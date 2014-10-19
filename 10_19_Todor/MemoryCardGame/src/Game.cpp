@@ -21,13 +21,11 @@ bool Game::Init(const char* title, int xpos, int ypos, int width, int height,
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4097);
 
-		std::cout << "SDL init success\n";
 //		 init the window
 
 		m_pWindow = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		if (m_pWindow != 0) // window init success
 				{
-			std::cout << "window creation success\n";
 			m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 			if (m_pRenderer != 0) // renderer init success
 					{
@@ -83,21 +81,21 @@ bool Game::Init(const char* title, int xpos, int ypos, int width, int height,
 
 	m_cardLogic.Init(m_pRenderer);
 
-	txt.Set(487, 50, 30, 40, " ");
+	txt.Set(513, 50, 30, 40, " ");
 	txt.setTextColor(255, 255, 0, 255);
 
-	level.Set(770, 50, 30, 40, " ");
+	level.Set(790, 50, 30, 40, " ");
 	level.setTextColor(255, 255, 0, 255);
 
 //	**************
-	bet.Set(920, 702, 30, 40, " ");
+	bet.Set(950, 702, 30, 40, " ");
 	bet.setTextColor(255, 255, 0, 255);
 	bet.IntToTextMessage(5);
 
-	credit.Set(270, 702, 25, 35, " ");
+	credit.Set(295, 704, 25, 35, " ");
 	credit.setTextColor(255, 255, 0, 255);
 
-	profit.Set(756, 702, 30, 40, " ");
+	profit.Set(790, 702, 30, 40, " ");
 	profit.setTextColor(255, 255, 0, 255);
 
 	m_stat.createFile();
@@ -114,6 +112,7 @@ void Game::Update() {
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_QUIT:
+
 			m_bRunning = false;
 			break;
 		default:
@@ -143,14 +142,14 @@ void Game::Update() {
 				SoundsBank::sound->PlaySoundEffect(1);
 			}
 			if (m_buttonSet[2].getState() == CLICK_BUTTON) {
-				StateManager::stateMachine->setCurrentGameStates(RULES_OF_GAMES);
+				StateManager::stateMachine->setCurrentGameStates(
+						RULES_OF_GAMES);
 				m_buttonSet[2].setState(NORMAL_BUTTON);
 				SoundsBank::sound->PlaySoundEffect(1);
 			}
 
 			if (m_buttonSet[3].getState() == CLICK_BUTTON) {
-				StateManager::stateMachine->setCurrentGameStates(
-						RECOVERY);
+				StateManager::stateMachine->setCurrentGameStates(RECOVERY);
 				m_buttonSet[3].setState(NORMAL_BUTTON);
 			}
 
@@ -163,7 +162,6 @@ void Game::Update() {
 		m_cardLogic.Update(event);
 		m_cardLogic.compareCard();
 
-
 		if (Timer::g_Timer->GetIsStarted()) {
 
 			if (Timer::g_Timer->GetSeconds() == 0
@@ -172,7 +170,6 @@ void Game::Update() {
 				//here statistics gathers information for Timer end Clicks
 				m_stat.setSecondToEnd(Timer::g_Timer->GetSeconds());
 				m_stat.setClickForLevel(Card::clickCount);
-
 
 				Timer::g_Timer->StopTimer();
 				m_stat.calculateProfit();
@@ -184,27 +181,49 @@ void Game::Update() {
 
 		}
 		txt.UpdateTextMessage(Timer::g_Timer->getString());
-
+		/*		if (!m_recover) {
+		 m_Recovery.saveRecoverFile(m_cardLogic.getTempLevel(),
+		 m_stat.getProfit(), m_stat.getCredit(),
+		 Timer::g_Timer->GetSeconds(),
+		 StateManager::stateMachine->getCurrentGameStates(),
+		 m_cardLogic.getCardSet(), Card::clickCount);
+		 }*/
 		break;
 
 	case RULES_OF_GAMES:
 
 		m_buttonSet.at(4).Update(event);
 		if (m_buttonSet.at(4).getState() == CLICK_BUTTON) {
-				StateManager::stateMachine->setCurrentGameStates(MENU);
-				m_buttonSet.at(4).setState(NORMAL_BUTTON);
-	//				SoundsBank::sound->PlaySoundEffect(1);
-			}
+			StateManager::stateMachine->setCurrentGameStates(MENU);
+			m_buttonSet.at(4).setState(NORMAL_BUTTON);
+			//				SoundsBank::sound->PlaySoundEffect(1);
+		}
 		break;
 
 	case GAMEOVER:
+		/*		if (!m_recover) {
+		 m_Recovery.saveRecoverFile(m_cardLogic.getTempLevel(),
+		 m_stat.getProfit(), m_stat.getCredit(),
+		 Timer::g_Timer->GetSeconds(),
+		 StateManager::stateMachine->getCurrentGameStates(),
+		 m_cardLogic.getCardSet(), Card::clickCount);
+		 }*/
 
 		PlayButton.Update(event);
 		m_buttonSet.at(4).Update(event);
 
 		if (PlayButton.getState() == CLICK_BUTTON) {
+			m_cardLogic.GetCardFromDeck();
+			m_cardLogic.m_TwoCard.clear();
+
 			Timer::g_Timer->StartTimer(2 + m_cardLogic.getTempLevel());
 			StateManager::stateMachine->setCurrentGameStates(VIEW_CARDS);
+			PlayButton.setState(NORMAL_BUTTON);
+//			m_recover = false;
+			m_Recovery.saveRecoverFile(m_cardLogic.getTempLevel(),
+					m_stat.getProfit(), m_stat.getCredit(),
+					StateManager::stateMachine->getCurrentGameStates(),
+					Card::clickCount);
 
 		}
 		if (m_buttonSet.at(4).getState() == CLICK_BUTTON) {
@@ -219,11 +238,10 @@ void Game::Update() {
 		break;
 
 	case VIEW_CARDS:
+
 		if (Timer::g_Timer->GetIsStarted()) {
 
-
 			txt.UpdateTextMessage(Timer::g_Timer->getString());
-
 			if (Timer::g_Timer->GetSeconds() == 0) {
 
 				Timer::g_Timer->StopTimer();
@@ -235,34 +253,35 @@ void Game::Update() {
 		profit.IntToTextMessage(0);
 		level.IntToTextMessage(m_cardLogic.getTempLevel());
 		m_RightGuesses = (m_cardLogic.getTempLevel() + 3);
-
+//		if (!m_recover) {
+//			m_Recovery.saveRecoverFile(m_cardLogic.getTempLevel(),
+//					m_stat.getProfit(), m_stat.getCredit(),
+//					Timer::g_Timer->GetSeconds(),
+//					StateManager::stateMachine->getCurrentGameStates(),
+//					m_cardLogic.getCardSet(), Card::clickCount);
+//		}
 		break;
 	case STATISTIC:
 		m_buttonSet.at(4).Update(event);
 		if (m_buttonSet.at(4).getState() == CLICK_BUTTON) {
-				StateManager::stateMachine->setCurrentGameStates(MENU);
-				m_buttonSet.at(4).setState(NORMAL_BUTTON);
-	//				SoundsBank::sound->PlaySoundEffect(1);
-			}
+			StateManager::stateMachine->setCurrentGameStates(MENU);
+			m_buttonSet.at(4).setState(NORMAL_BUTTON);
+			//				SoundsBank::sound->PlaySoundEffect(1);
+		}
 		break;
 	case RECOVERY:
 
-		Recovery temp;
-		temp = m_Recovery.LoadRecoverFile();
-		StateManager::stateMachine->setCurrentGameStates(GAMEOVER);
-
-		vector<Card> t = temp.getRecoverCards();
-		for (unsigned i = 0; i < t.size(); i++) {
-			cout << t.at(i).suit << endl;
-		}
-		m_cardLogic.setCardSet(t);
+		m_Recovery.LoadRecoverFile();
+		credit.IntToTextMessage(m_Recovery.getRecoverCredit());
+		level.IntToTextMessage(m_Recovery.getRecoverLevel());
+		m_cardLogic.setTempLevel(m_Recovery.getRecoverLevel());
+		m_cardLogic.GetCardFromDeck();
+		Timer::g_Timer->StartTimer(m_Recovery.getRecoverLevel() + 3);
+		StateManager::stateMachine->setCurrentGameStates(VIEW_CARDS);
 
 		break;
 	}
-	m_Recovery.saveRecoverFile(m_cardLogic.getTempLevel(), m_stat.getProfit(),
-			m_stat.getCredit(), Timer::g_Timer->GetSeconds(),
-			StateManager::stateMachine->getCurrentGameStates(),
-			m_cardLogic.getCardSet(), Card::clickCount);
+
 }/*end of Update*/
 
 //here things will be drawn ******************************************************************************
@@ -298,7 +317,6 @@ void Game::Draw() {
 		m_buttonSet.at(4).Draw(m_pRenderer);
 		break;
 
-
 	case GAMEOVER:
 
 		SDL_RenderCopy(m_pRenderer, m_BackGroundTexture, 0, 0);
@@ -312,12 +330,6 @@ void Game::Draw() {
 		break;
 
 	case VIEW_CARDS:
-
-		if (PlayButton.getState() == CLICK_BUTTON) {
-			m_cardLogic.GetCardFromDeck();
-			m_cardLogic.m_TwoCard.clear();
-			PlayButton.setState(NORMAL_BUTTON);
-		}
 
 		SDL_RenderCopy(m_pRenderer, m_BackGroundTexture, 0, 0);
 		PlayButton.Draw(m_pRenderer);

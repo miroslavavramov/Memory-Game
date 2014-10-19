@@ -27,6 +27,9 @@ public:
 		return TempLevel;
 	}
 
+	void setTempLevel(int level) {
+		TempLevel = level;
+	}
 	const vector<Card>& getCardSet() const {
 		return m_cardSet;
 	}

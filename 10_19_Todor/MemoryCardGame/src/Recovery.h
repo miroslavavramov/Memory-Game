@@ -20,7 +20,7 @@ public:
 	Recovery();
 	virtual ~Recovery();
 	void createRecoverFile();
-    void saveRecoverFile( int level, int win, int credit, int time, gameStates state, vector <Card> Cards, int clicks );
+    void saveRecoverFile( int level, int win, int credit, gameStates state, int clicks );
     Recovery& LoadRecoverFile();
 	const vector<Card>& getRecoverCards() const;
 	void setRecoverCards(const vector<Card>& recoverCards);
@@ -39,12 +39,8 @@ public:
 
 private:
     int m_RecoverLevel;
-    int m_RecoverWin;
     int m_RecoverCredit;
-    int m_RecoverTime;
     gameStates m_RecoverState;
-    vector <Card> m_RecoverCards;
-    int m_RecoverClicks;
 };
 
 #endif /* RECOVERY_H_ */

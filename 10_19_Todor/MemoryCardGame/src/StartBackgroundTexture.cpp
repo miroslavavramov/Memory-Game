@@ -67,5 +67,4 @@ int offset = 30;
 		m_txtStatistics.Set(512, 100 + offset, 12, 25, temp.at(i));
 		m_txtStatistics.Draw(a);
 	}
-
 }

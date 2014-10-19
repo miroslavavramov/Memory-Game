@@ -12,9 +12,6 @@ Buttons::~Buttons() {
 void Buttons::Init(SDL_Renderer* a)
 {
 	SDL_Surface* buttons = IMG_Load("images/buttonsMemory.png");
-	if (!buttons) {
-		cerr << "images/cards.png: not found " << SDL_GetError() << endl;
-	}
 
 	m_t = SDL_CreateTextureFromSurface(a,buttons);
 	SDL_FreeSurface(buttons);

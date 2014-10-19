@@ -73,6 +73,7 @@ private:
 
 	Recovery m_Recovery;
 
+
 };
 
 #endif /* GAME_H_ */

@@ -36,11 +36,12 @@ void Statistics::calculateProfit() {
 
 	if (secondToEnd == 0) {
 		profit = 0;
+		credit += - 5;
 	} else {
 		profit =
 				((bet * secondToEnd) - (((gameLevel + 2) * 2) - clickForLevel));
-	}
 	credit += profit;
+	}
 }
 
 //((gameLevel + 3) * 2) - clickForLevel;
@@ -120,7 +121,7 @@ vector<string> Statistics::readFromFile() {
 	std::stringstream ss;
 	for (unsigned int i = 0; i < statistics.size() ; i++) {
 		ss << "#";
-		ss << 10 - i <<":";
+		ss << i + 1 <<":";
 		ss << " Level: ";
 		ss << statistics.at(i).getGameLevel();
 		ss << "  Clicks: ";
