@@ -154,14 +154,7 @@ void Game::Update() {
 
 		if (event.key.keysym.sym == SDLK_ESCAPE)
 		{
-				if(StateManager::stateMachine->getCurrentGameStates() != STARTGAME)
-				{
-					m_bRunning = false;
-				}
-				else
-				{
-					m_bRunning = true;
-				}
+			m_bRunning = false;
 		}
 	}
 
@@ -211,6 +204,7 @@ void Game::Update() {
 
 		if (Timer::g_Timer->GetIsStarted()) {
 
+
 			if (Timer::g_Timer->GetSeconds() == 0
 					|| m_cardLogic.getCountInvCards() == m_RightGuesses) {
 
@@ -222,9 +216,9 @@ void Game::Update() {
 				m_stat.calculateProfit();
 				m_stat.saveToFile();
 				m_Recovery.saveRecoverFile(m_cardLogic.getTempLevel(),
-						m_stat.getProfit(), m_stat.getCredit(),
-						StateManager::stateMachine->getCurrentGameStates(),
-						Card::clickCount);
+										m_stat.getProfit(), m_stat.getCredit(),
+										StateManager::stateMachine->getCurrentGameStates(),
+										Card::clickCount);
 				m_statTxtSeconds.IntToTextMessage(
 						m_stat.getGameLevel() + 9 - m_stat.getSecondToEnd());
 				StateManager::stateMachine->setCurrentGameStates(GAMEOVER);

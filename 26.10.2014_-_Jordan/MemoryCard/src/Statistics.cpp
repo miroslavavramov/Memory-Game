@@ -3,7 +3,7 @@
 
 Statistics::Statistics() {
 	// TODO Auto-generated constructor stub
-	credit = 50;
+	credit = 8;
 	bet = 5;
 	profit = 0;
 	clickForLevel = 0;
